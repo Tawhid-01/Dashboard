@@ -4,17 +4,24 @@ const mongoose = require('mongoose');
 const ejsLayouts = require('express-ejs-layouts');  
 const userRouter = require('./router/route');   
 const path = require('path');
+const connectDB = require('./config/db');
 
-//database connection
 
 const app = express();
 
+
+//data storage connection
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
+
+//database connection config
+connectDB();
+
 //ejs integration
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
-app.set("layout", "layouts/home");
+app.set("layout", "layouts/dashLayout");
 
 //static files
 app.use(express.static('public'));

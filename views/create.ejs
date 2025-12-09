@@ -1,0 +1,32 @@
+
+<div class="form">
+    <h2 class="text-center ">Add New Task</h2>
+    <% if (msg) { %>
+         <p><%= msg %></p>
+    <% } %>
+    <form action="/task/create/new" method="POST" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="taskTitle" class="form-label">Task Title</label>
+                        <input type="text" class="form-control" id="taskTitle" name="title" placeholder="e.g., Complete Report Draft" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="taskDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="taskDescription" name=" " rows="5" placeholder="Provide detailed instructions and objectives for the task." required></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="taskImage" class="form-label">Upload Image (Optional)</label>
+                        <input class="form-control" type="file" id="taskImage" name="image" accept="image/*">
+                        <div id="imageHelp" class="form-text">Attach an image relevant to the task (e.g., a diagram or screenshot).</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary me-2" name="add">
+                        <i class="ti ti-plus me-1"></i> Save Task
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary">
+                        Clear Form
+                    </button>
+                </form>
+</div>
