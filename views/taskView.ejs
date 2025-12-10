@@ -1,12 +1,12 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h1>Our Blog Management</h1>
-        <div class="my-2"> <%= msg %></div>
-        <a class="btn btn-success my-3" href="/task/create">Add New Task<i class="ti ti-chevron-right me-1"></i></a>
-        <table class="table table-hover table-striped table-bordered">
+ 
+ 
+     <a class=" btn btn-warning" href="/blog"><i class="ti ti-chevron-left me-1"></i>Back</a>
+ 
+ <h2 class="text-center my-2 mb-3">Your <%= data.title %> task</h2>
+ <table class="table table-hover table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>#</th>
+                    
                     <th>Title</th>
                     <th>Content</th>
                     <th>Images</th>
@@ -14,24 +14,23 @@
                 </tr>
             </thead>
            <tbody>
-                            <% if (data && data.length > 0) { %>
-                                <% data.reverse().forEach((task, index) => { %>
+                            <% if (data ) { %>
+                               
                                     <tr>
-                                        <td><%= index + 1 %></td>
-                                        <td><%= task.title %></td>
-                                        <td><%= task.description %></td>
-                                        <td><img style="width: 100px;" src="/uploads/images/<%= task.image %>" alt="blog image"></td>
+                                        <td><%= data.title %></td>
+                                        <td><%= data.description %></td>
+                                        <td><img style="width: 100px;"  src="/uploads/images/<%= data.image %>" alt="blog image"></td>
                                         <td>
-                                            <a class="btn btn-success" href="/task/view/<%= task.id %>">View</a>
+                                            <a class="btn btn-success" href="/task/view">View</a>
                                             <a class="btn btn-warning" href="#">Edit</a>
                                             <a class="btn btn-danger delete-btn" 
                                                href="javascript:void(0);" 
-                                               data-id="<%= task.id %>">
+                                               data-id="<%= data.id %>">
                                                 Delete
                                             </a>
                                         </td>
                                     </tr>
-                                <% }) %>
+                               
                             <% } %>
                         </tbody>
                     </table>

@@ -1,10 +1,11 @@
 
 <div class="form">
+    <a class=" btn btn-warning" href="/blog"><i class="ti ti-chevron-left me-1"></i>Back</a>
     <h2 class="text-center ">Add New Task</h2>
     <% if (msg) { %>
          <p><%= msg %></p>
     <% } %>
-    <form action="/task/create/new" method="POST" enctype="multipart/form-data">
+    <form action="/task/create/new" method="POST" enctype="multipart/form-data" >
 
                     <div class="mb-3">
                         <label for="taskTitle" class="form-label">Task Title</label>
@@ -13,7 +14,7 @@
 
                     <div class="mb-3">
                         <label for="taskDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="taskDescription" name=" " rows="5" placeholder="Provide detailed instructions and objectives for the task." required></textarea>
+                        <textarea class="form-control" id="taskDescription" name="description" rows="5" placeholder="Provide detailed instructions and objectives for the task." required></textarea>
                     </div>
 
                     <div class="mb-4">
