@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const taskModel = require('../models/Task');
+const path = require('path');
+const fs = require('fs');
 
 
     //dashPage
@@ -57,8 +59,11 @@ const deleteTask = async (req, res) => {
         await taskModel.findByIdAndDelete(taskId);
         //get data
         const allTastks = await taskModel.find();
-        res.render('blog', { msg: "Task Deleted Successfully", data: allTastks }); 
+        req.flash('success', 'Task Deleted Successfully');
+        res.redirect('/blog'); 
     } catch (error) {
+        req.flash('error', 'Error Deleting Task');
+        res.redirect('/blog');
         console.error("somthing went wrong in Deleting Task", error);   
     }
 };
@@ -76,6 +81,51 @@ const viewTask = async (req, res) => {
         console.error("somthing went wrong in Viewing Task", error);   
     }
 }
+        //edit task page
+const editTaskPage = async (req, res) => {
+    try{
+        const taskId = req.params.id;
+        const taskDetail = await taskModel.findById(taskId);
+        res.render('EditTask', {data: taskDetail, msg: null});
+    }catch (error) {
+        console.error("somthing went wrong in Editing Task Page", error);   
+    }
+}
+
+
+     //update task
+     const updateTaskPage = async (req, res) => {
+        const taskId = req.params.id;
+        if (!taskId) {
+            return res.status(404).send("Task ID is missing or not found");
+        }else{
+            let taskData = await taskModel.findById(taskId);
+            const old_image = taskData.image;
+             const { title, description } = req.body;
+             const image = req.file ? req.file.filename :old_image;
+    try {
+        taskData.title = title;
+        taskData.description = description;
+        if(image){
+            taskData.image = image;
+            const oldImagePath = path.join(__dirname, '../public/uploads/images', old_image);
+            if (fs.existsSync(oldImagePath)) {
+                fs.unlinkSync(oldImagePath);
+            }
+        }else{
+            taskData.image = old_image;
+        }
+await taskData.save();
+ //get data
+  const allTastks = await taskModel.find();
+    res.render('blog', { msg: "Task Updated Successfully", data: allTastks });             
+    }catch (error) {
+        console.error("somthing went wrong in Task Updating", error);   
+ }
+};
+        }
+
+     
 module.exports = {
     home,
     sample,
@@ -83,6 +133,8 @@ module.exports = {
     taskCreate,
     createPage,
     deleteTask,
-    viewTask
+    viewTask,
+    editTaskPage,
+    updateTaskPage
 
 };

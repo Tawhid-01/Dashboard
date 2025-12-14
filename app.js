@@ -5,6 +5,8 @@ const ejsLayouts = require('express-ejs-layouts');
 const userRouter = require('./router/route');   
 const path = require('path');
 const connectDB = require('./config/db');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 
 const app = express();
@@ -28,6 +30,23 @@ app.use(express.static('public'));
 
 //routers
   app.use(userRouter);
+ 
+  //use session
+  app.use(session({
+    secret: '',
+    resave: false,               
+    saveUninitialized: false,      
+  
+}));
+  //use flash 
+  app.use(flash());
+   //flash middleware
+    app.use((req, res, next) => {
+        res.locals.success = req.flash('success');
+        res.locals.error = req.flash('error');
+        next();
+    }
+);
 
 //server setup
 const port = process.env.PORT || 3000;
