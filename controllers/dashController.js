@@ -21,6 +21,9 @@ const blogPage = async(req, res) => {
       try{
          //get data
      const allTastks =await taskModel.find();
+    //  // for API testing
+    //  res.json(allTastks);
+     //Render blog page in ejs template
   res.render('blog', {data: allTastks, msg: null }); 
    }catch (error) {
     console.error("somthing went wrong in Task Create Page", error);   
@@ -59,7 +62,14 @@ await taskData.save();
 const deleteTask = async (req, res) => {
     const taskId = req.params.id;
     try {
+         let taskData = await taskModel.findById(taskId);
+            const delete_image = taskData.image;
         await taskModel.findByIdAndDelete(taskId);
+        //delete image from folder
+            const deleteImagePath = path.join(__dirname, '../public/uploads/images', delete_image);
+            if (fs.existsSync(deleteImagePath)) {
+                fs.unlinkSync(deleteImagePath );
+            }
         //get data
         const allTastks = await taskModel.find();
         req.flash('success', 'Task Deleted Successfully');
@@ -111,10 +121,14 @@ const editTaskPage = async (req, res) => {
         taskData.description = description;
         if(image){
             taskData.image = image;
-            const oldImagePath = path.join(__dirname, '../public/uploads/images', old_image);
+
+           if(image !== old_image){
+            //delete old image from folder
+             const oldImagePath = path.join(__dirname, '../public/uploads/images', old_image);
             if (fs.existsSync(oldImagePath)) {
                 fs.unlinkSync(oldImagePath);
             }
+           }
         }else{
             taskData.image = old_image;
         }
