@@ -28,14 +28,13 @@ app.set("layout", "layouts/dashLayout");
 //static files
 app.use(express.static('public'));
 
-//routers
-  app.use(userRouter);
- 
+
   //use session
   app.use(session({
-    secret: '',
+    secret: 'yourSecretKet123',
     resave: false,               
-    saveUninitialized: false,      
+    saveUninitialized: false, 
+    cookie: { maxAge: 2000 }     
   
 }));
   //use flash 
@@ -48,6 +47,9 @@ app.use(express.static('public'));
     }
 );
 
+//routers
+  app.use(userRouter);
+ 
 //server setup
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

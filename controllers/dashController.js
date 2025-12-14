@@ -45,8 +45,11 @@ const createPage = async (req, res) => {
 await taskData.save();
  //get data
   const allTastks = await taskModel.find();
-    res.render('blog', { msg: "Task Created Successfully", data: allTastks });             
+   req.flash('success', 'Task Created Successfully');
+        res.redirect('/blog'); 
     }catch (error) {
+         req.flash('error', 'Error Creat Task');
+        res.redirect('/blog');
         console.error("somthing went wrong in Task Create", error);   
  }
 };
@@ -118,8 +121,11 @@ const editTaskPage = async (req, res) => {
 await taskData.save();
  //get data
   const allTastks = await taskModel.find();
-    res.render('blog', { msg: "Task Updated Successfully", data: allTastks });             
+     req.flash('success', 'Task Updated Successfully');
+        res.redirect('/blog');      
     }catch (error) {
+         req.flash('error', 'Error Update Task');
+        res.redirect('/blog');
         console.error("somthing went wrong in Task Updating", error);   
  }
 };
