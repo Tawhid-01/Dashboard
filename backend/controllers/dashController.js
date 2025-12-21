@@ -17,19 +17,14 @@ const sample = (req, res) => {
 
 
         //blog page
-const blogPage = async(req, res) => {
-      try{
-         //get data
-     const allTastks =await taskModel.find();
-    //  // for API testing
-    //  res.json(allTastks);
-     //Render blog page in ejs template
-  res.render('blog', {data: allTastks, msg: null }); 
-   }catch (error) {
-    console.error("somthing went wrong in Task Create Page", error);   
-   }
-}
- 
+const blogPage = async (req, res) => {
+    try {
+        const allTasks = await taskModel.find();
+        res.status(200).json(allTasks); // Send JSON array
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch tasks" });
+    }
+};
         //create task page
 const taskCreate =async (req, res) => {
   
@@ -39,24 +34,34 @@ const taskCreate =async (req, res) => {
    
 
         //create task
-const createPage = async (req, res) => {
- const { title, description } = req.body;
- const image = req.file ? req.file.filename : null;
+// const createPage = async (req, res) => {
+//  const { title, description } = req.body;
+//  const image = req.file ? req.file.filename : null;
+//     try {
+//          const taskData = new taskModel({title,description, image    
+// });
+// await taskData.save();
+//  //get data
+//   const allTastks = await taskModel.find();
+//    req.flash('success', 'Task Created Successfully');
+//         res.redirect('/blog'); 
+//     }catch (error) {
+//          req.flash('error', 'Error Creat Task');
+//         res.redirect('/blog');
+//         console.error("somthing went wrong in Task Create", error);   
+//  }
+// };
+     const createPage = async (req, res) => {
+    const { title, description } = req.body;
+    const image = req.file ? req.file.filename : null;
     try {
-         const taskData = new taskModel({title,description, image    
-});
-await taskData.save();
- //get data
-  const allTastks = await taskModel.find();
-   req.flash('success', 'Task Created Successfully');
-        res.redirect('/blog'); 
-    }catch (error) {
-         req.flash('error', 'Error Creat Task');
-        res.redirect('/blog');
-        console.error("somthing went wrong in Task Create", error);   
- }
+        const newTask = new taskModel({ title, description, image });
+        await newTask.save();
+        res.status(201).json({ message: "Task created successfully", newTask });
+    } catch (error) {
+        res.status(500).json({ error: "Error saving task" });
+    }
 };
-     
 
         //delete task
 const deleteTask = async (req, res) => {
