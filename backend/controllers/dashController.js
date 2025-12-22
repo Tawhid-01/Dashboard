@@ -77,11 +77,13 @@ const deleteTask = async (req, res) => {
             }
         //get data
         const allTastks = await taskModel.find();
-        req.flash('success', 'Task Deleted Successfully');
-        res.redirect('/blog'); 
+        // req.flash('success', 'Task Deleted Successfully');
+        // res.redirect('/blog'); 
+        res.status(200).json({ message: "Task deleted successfully" });
     } catch (error) {
-        req.flash('error', 'Error Deleting Task');
-        res.redirect('/blog');
+        // req.flash('error', 'Error Deleting Task');
+        // res.redirect('/blog');
+        res.status(500).json({ error: "Error deleting task" });
         console.error("somthing went wrong in Deleting Task", error);   
     }
 };
@@ -94,8 +96,10 @@ const viewTask = async (req, res) => {
     try{
         const taskId = req.params.id;
         const taskDetail = await taskModel.findById(taskId);
-        res.render('taskView', {data: taskDetail});
+        // res.render('taskView', {data: taskDetail});
+        res.status(200).json(taskDetail);
     }catch (error) {
+        res.status(500).json({ error: "Error fetching task details" });
         console.error("somthing went wrong in Viewing Task", error);   
     }
 }
@@ -104,7 +108,8 @@ const editTaskPage = async (req, res) => {
     try{
         const taskId = req.params.id;
         const taskDetail = await taskModel.findById(taskId);
-        res.render('EditTask', {data: taskDetail, msg: null});
+        // res.render('EditTask', {data: taskDetail, msg: null});
+        res.status(200).json(taskDetail);
     }catch (error) {
         console.error("somthing went wrong in Editing Task Page", error);   
     }
@@ -140,11 +145,13 @@ const editTaskPage = async (req, res) => {
 await taskData.save();
  //get data
   const allTastks = await taskModel.find();
-     req.flash('success', 'Task Updated Successfully');
-        res.redirect('/blog');      
+    //  req.flash('success', 'Task Updated Successfully');
+    //     res.redirect('/blog');      
+    res.status(200).json({ message: "Task updated successfully" });
     }catch (error) {
-         req.flash('error', 'Error Update Task');
-        res.redirect('/blog');
+        //  req.flash('error', 'Error Update Task');
+        // res.redirect('/blog');
+        res.status(500).json({ error: "Error updating task" });
         console.error("somthing went wrong in Task Updating", error);   
  }
 };

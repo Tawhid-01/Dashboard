@@ -7,11 +7,12 @@ const path = require('path');
 const connectDB = require('./config/db');
 const session = require('express-session');
 const flash = require('connect-flash');
+const cors = require('cors');
 
 
 const app = express();
 
-
+app.use(cors());
 //data storage connection
 
 app.use(express.json());
