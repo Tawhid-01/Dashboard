@@ -10,9 +10,9 @@ const Home = () => {
             <div className="absolute inset-0 bg-slate-50 -z-30"></div>
             
             {/* 2. Animated Mesh Blobs (Requires CSS @theme config above) */}
-            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-50 animate-blob -z-20"></div>
-            <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-50 animate-blob animation-delay-2000 -z-20"></div>
-            <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-indigo-100 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-4000 -z-20"></div>
+            <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-blue-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-50 animate-blob -z-20"></div>
+            <div className="absolute top-[-10%] right-[-10%] w-125 h-125 bg-purple-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-50 animate-blob animation-delay-2000 -z-20"></div>
+            <div className="absolute bottom-[-10%] left-[20%] w-125 h-125 bg-indigo-100 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-4000 -z-20"></div>
 
             {/* 3. Texture & Masking */}
             {/* Using the CSS variable defined in the @theme block */}
@@ -27,7 +27,7 @@ const Home = () => {
                     v2.0 Documentation Engine
                 </span>
                 <h1 className="text-6xl font-black text-slate-900 mb-6 tracking-tight leading-[1.1]">
-                    Task Management <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">System</span>
+                    Task Management <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600">System</span>
                 </h1>
                 <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl mx-auto">
                     A streamlined way to organize your workflow. Create tasks, 
