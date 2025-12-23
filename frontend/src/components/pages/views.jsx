@@ -101,6 +101,14 @@ const Views = () => {
 
                             {/* 3. Actions - Flex Child */}
                             <div className="flex gap-2 mt-4 md:mt-0 ml-0 md:ml-4 shrink-0">
+                                 <Link to={`/view/${task._id}`}>
+                                    <button className="px-4 py-2 bg-gray-50 text-gray-600 border border-gray-200 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all active:scale-95">
+                                        View
+                                    </button>
+                                </Link>
+
+
+
                                 <Link to={`/edit/${task._id}`}>
                                     <button className="px-4 py-2 bg-gray-50 text-gray-600 border border-gray-200 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all active:scale-95">
                                         Edit

@@ -4,6 +4,7 @@ import Home from './components/Home';
 import TaskList from './components/pages/views';
 import CreateTask from './components/pages/CreateTask';
 import EditTask from './components/pages/EditTask';
+import ViewTask from './components/pages/SingleView';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
               <Route path="/create" element={<CreateTask />} />
               {/* Dynamic route for Editing */}
               <Route path="/edit/:id" element={<EditTask />} />
+              <Route path="/view/:id" element={<ViewTask />} />
             </Routes>
           </div>
         </main>
