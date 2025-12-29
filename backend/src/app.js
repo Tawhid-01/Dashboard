@@ -27,8 +27,9 @@ app.use(ejsLayouts);
 app.set("layout", "layouts/dashLayout");
 
 //static files
-app.use(express.static('public'));
-
+app.use(express.static('public/uploads'));
+// This explicitly maps the URL "/uploads" to your physical folder
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
   //use session
   app.use(session({
