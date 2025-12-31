@@ -21,31 +21,51 @@ const Views = () => {
         getTasks();
     }, []);
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: 'Delete Task?',
-            text: "This action will be cancelled automatically in 15 seconds!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2563eb',
-            cancelButtonColor: '#ef4444',
-            confirmButtonText: 'Yes, delete it!',
-            timer: 15000,
-            timerProgressBar: true,
-            background: '#ffffff',
-            borderRadius: '1rem'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    await axios.get(`http://localhost:3434/task/delete/${id}`);
-                    setTasks(tasks.filter(t => t._id !== id));
-                    Swal.fire({ title: 'Deleted!', icon: 'success', timer: 2000, showConfirmButton: false });
-                } catch (err) {
-                    Swal.fire('Error!', 'Failed to delete task.', 'error', err);
-                }
+   const handleDelete = (id) => {
+    Swal.fire({
+        title: 'Delete Task?',
+        text: "This action will be cancelled automatically in 15 seconds!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2563eb',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'Yes, delete it!',
+        timer: 15000,
+        timerProgressBar: true,
+        background: '#ffffff',
+        // borderRadius: '1rem' // REMOVED: This is an unknown parameter
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                // Get the fresh token from local storage
+                const token = localStorage.getItem('token'); 
+
+                // 1. FIXED: Changed axios.get to axios.delete
+                // 2. FIXED: Added headers with the Authorization token
+                await axios.delete(`http://localhost:3434/task/delete/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                setTasks(tasks.filter(t => t._id !== id));
+                Swal.fire({ 
+                    title: 'Deleted!', 
+                    icon: 'success', 
+                    timer: 2000, 
+                    showConfirmButton: false 
+                });
+            } catch (err) {
+                console.error("Delete Error:", err.response?.data || err.message);
+                Swal.fire(
+                    'Error!', 
+                    err.response?.data?.message || 'Failed to delete task.', 
+                    'error'
+                );
             }
-        });
-    };
+        }
+    });
+};
 
     if (loading) return (
         <div className="flex justify-center items-center min-h-96">

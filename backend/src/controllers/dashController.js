@@ -67,24 +67,32 @@ const taskCreate =async (req, res) => {
 const deleteTask = async (req, res) => {
     const taskId = req.params.id;
     try {
-         let taskData = await taskModel.findById(taskId);
-            const delete_image = taskData.image;
+        const taskData = await taskModel.findById(taskId);
+        
+        // 1. Check if task exists to prevent "cannot read property image of null"
+        if (!taskData) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        const delete_image = taskData.image;
+
+        // 2. Delete from Database first
         await taskModel.findByIdAndDelete(taskId);
-        //delete image from folder
-            const deleteImagePath = path.join(__dirname, '../public/uploads/images', delete_image);
+
+        // 3. Delete image from folder safely
+        if (delete_image) {
+            // Using path.resolve is more reliable for different OS environments
+            const deleteImagePath = path.join(__dirname, '..', 'public', 'uploads', 'images', delete_image);
+            
             if (fs.existsSync(deleteImagePath)) {
-                fs.unlinkSync(deleteImagePath );
+                fs.unlinkSync(deleteImagePath);
             }
-        //get data
-        const allTastks = await taskModel.find();
-        // req.flash('success', 'Task Deleted Successfully');
-        // res.redirect('/blog'); 
+        }
+
         res.status(200).json({ message: "Task deleted successfully" });
     } catch (error) {
-        // req.flash('error', 'Error Deleting Task');
-        // res.redirect('/blog');
+        console.error("Internal Server Error in Deleting Task:", error);
         res.status(500).json({ error: "Error deleting task" });
-        console.error("somthing went wrong in Deleting Task", error);   
     }
 };
 

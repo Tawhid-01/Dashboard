@@ -12,7 +12,7 @@ const Login = () => {
         e.preventDefault();
         try {
             // Ensure this URL matches your backend port
-            const res = await axios.post('http://localhost:3434/api/login', { email, password });
+            const res = await axios.post('http://localhost:3434/login', { email, password });
             
             // 1. Save data to localStorage
             localStorage.setItem('token', res.data.token);

@@ -9,31 +9,49 @@ const EditTask = () => {
     const [newImage, setNewImage] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Fetches data from your editTaskPage controller
-        axios.get(`http://localhost:3434/task/edit/${id}`)
-            .then(res => {
-                setTask(res.data);
-                setLoading(false);
-            })
-            .catch(err => console.error("Could not fetch task", err));
-    }, [id]);
-
-    const handleUpdate = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('title', task.title);
-        formData.append('description', task.description);
-        if (newImage) formData.append('image', newImage);
-
-        try {
-            // Matches your updateTaskPage route
-            await axios.post(`http://localhost:3434/task/update/${id}`, formData); 
-            navigate('/tasks');
-        } catch (err) {
-            alert("Error updating task", err);
+useEffect(() => {
+    const token = localStorage.getItem('token'); // Get token from storage
+    
+    axios.get(`http://localhost:3434/task/edit/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}` // Attach Bearer token
         }
-    };
+    })
+    .then(res => {
+        setTask(res.data);
+        setLoading(false);
+    })
+    .catch(err => {
+        console.error("Could not fetch task", err);
+        if (err.response?.status === 401) {
+            alert("Session expired. Please log in again.");
+            navigate('/login');
+        }
+    });
+}, [id, navigate]);
+
+const handleUpdate = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token'); // Get token
+    
+    const formData = new FormData();
+    formData.append('title', task.title);
+    formData.append('description', task.description);
+    if (newImage) formData.append('image', newImage);
+
+    try {
+        await axios.post(`http://localhost:3434/task/update/${id}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`, // Attach Bearer token
+                'Content-Type': 'multipart/form-data' // Required for file uploads
+            }
+        }); 
+        navigate('/tasks');
+    } catch (err) {
+        console.error("Error updating task", err);
+        alert(err.response?.data?.error || "Error updating task");
+    }
+};
 
     if (loading) return <div className="text-center py-10">Loading Task Data...</div>;
 

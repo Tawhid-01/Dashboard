@@ -41,6 +41,12 @@ const auth = require('../middleware/authMiddleware');
 const checkRole = require('../middleware/roleMiddleware');
 const upload = require('../middleware/imgMiddleware');
 
+//auth routes
+router.post('/register', userController.register);
+router.post('/login', userController.login);
+
+
+
 // --- PUBLIC ROUTES ---
 router.get("/blog", blogPage);
 router.get("/task/view/:id", viewTask);
@@ -50,8 +56,8 @@ router.get('/profile', auth, userController.getProfile); // Now this works!
 router.post('/task/create', auth, upload.single('image'), createPage);
 
 // --- VENDOR & ADMIN ROUTES ---
-router.get("/task/edit/:id", auth, checkRole('vendor'), editTaskPage);
-router.post("/task/update/:id", auth, checkRole('vendor'), upload.single("image"), updateTaskPage);
+router.get("/task/edit/:id", auth, checkRole(['admin', 'vendor']), editTaskPage);
+router.post("/task/update/:id", auth, checkRole(['admin', 'vendor']), upload.single('image'), updateTaskPage);
 
 // --- ADMIN ONLY ROUTES ---
 router.delete("/task/delete/:id", auth, checkRole('admin'), deleteTask);

@@ -15,23 +15,37 @@ const CreateTask = () => {
         setPreview(URL.createObjectURL(file));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('title', task.title); 
-        formData.append('description', task.description);
-        if (image) formData.append('image', image); 
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', task.title); 
+    formData.append('description', task.description);
+    if (image) formData.append('image', image); 
 
-        try {
-            // Hits your /task/create/new route
-            await axios.post('http://localhost:3434/task/create/new', formData);
-            navigate('/tasks'); 
-        } catch (err) {
-            console.error("Error creating task", err);
-            alert("Failed to create task. Check if your backend is running.");
-        }
-    };
+    const token = localStorage.getItem('token'); 
 
+    // Safety check: if there's no token, don't even try the request
+    if (!token) {
+        alert("You must be logged in to create a task!");
+        return;
+    }
+
+    try {
+        // FIXED URL: Removed "/new" to match your backend route
+        const response = await axios.post('http://localhost:3434/task/create', formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`, 
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log("Task created:", response.data);
+        alert("Task created successfully!");
+        navigate('/tasks'); 
+    } catch (error) {
+        console.error("Error creating task:", error.response?.data || error.message);
+        alert(error.response?.data?.message || "Failed to create task");
+    }
+};
     return (
         <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
             <div className="mb-8 text-center">

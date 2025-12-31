@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv').config();
 
 const auth = (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -6,7 +7,7 @@ const auth = (req, res, next) => {
     if (!token) return res.status(401).json({ message: "No token, authorization denied" });
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_secret_key');
+       const decoded = jwt.verify(token, process.env.JWT_SECRET);
         // This 'decoded' object must contain the user's ID and permissions
         req.user = decoded; 
         next();
