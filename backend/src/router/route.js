@@ -52,7 +52,7 @@ router.get("/blog", blogPage);
 router.get("/task/view/:id", viewTask);
 
 // --- PROTECTED ROUTES (Requires Login) ---
-router.get('/profile', auth, userController.getProfile); // Now this works!
+router.get('/profile', auth, userController.getProfile); 
 router.post('/task/create', auth, upload.single('image'), createPage);
 
 // --- VENDOR & ADMIN ROUTES ---
