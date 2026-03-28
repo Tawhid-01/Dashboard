@@ -3,22 +3,22 @@ services:
   - type: web
     name: mern-backend
     env: node
-    plan: free # This ensures you aren't charged
+    plan: free
     buildCommand: npm install
     startCommand: node server.js
     envVars:
       - key: MONGODB_URI
-        sync: false # You will manually paste this in the Render Dashboard
+        sync: false 
       - key: NODE_ENV
         value: production
 
-  # 2. The React Frontend
-  - type: static
+  # 2. The React Frontend (FIXED TYPE)
+  - type: static_site
     name: mern-frontend
     env: static
     plan: free
     buildCommand: npm install && npm run build
-    staticPublishPath: ./dist # Change to ./build if using older Create React App
+    staticPublishPath: ./dist 
     routingRules:
       - route: /*
-        rewritePath: /index.html # Handles React Router refreshes
+        rewritePath: /index.html
