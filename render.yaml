@@ -12,10 +12,10 @@ services:
       - key: NODE_ENV
         value: production
 
-  # 2. The Frontend
-  - type: web
+  # 2. The Frontend (Fixed for routingRules)
+  - type: static_site  # <--- Use this exact name
     name: mern-frontend
-    runtime: static  # This tells Render it's a static site
+    runtime: static
     plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
