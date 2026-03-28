@@ -12,13 +12,13 @@ services:
       - key: NODE_ENV
         value: production
 
-  # 2. The React Frontend (FIXED TYPE)
-  - type: static_site
+ # 2. The React Frontend
+  - type: web          # <--- Change this to 'web'
     name: mern-frontend
-    env: static
+    runtime: static    # <--- Add this line!
     plan: free
     buildCommand: npm install && npm run build
-    staticPublishPath: ./dist 
+    staticPublishPath: ./dist
     routingRules:
       - route: /*
         rewritePath: /index.html
