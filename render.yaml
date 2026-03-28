@@ -1,6 +1,6 @@
 services:
   # 1. The Node/Express Backend
-  - type: static
+  - type: web
     name: mern-backend
     env: node
     plan: free # This ensures you aren't charged
@@ -13,7 +13,7 @@ services:
         value: production
 
   # 2. The React Frontend
-  - type: web
+  - type: static
     name: mern-frontend
     env: static
     plan: free
