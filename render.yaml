@@ -1,6 +1,6 @@
 services:
   # 1. The Node/Express Backend
-  - type: web
+  - type: static
     name: mern-backend
     env: node
     plan: free # This ensures you aren't charged
