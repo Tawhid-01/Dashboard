@@ -1,8 +1,8 @@
 services:
-  # 1. The Node/Express Backend
+  # 1. The Backend
   - type: web
     name: mern-backend
-    env: node
+    runtime: node
     plan: free
     buildCommand: npm install
     startCommand: node server.js
@@ -12,10 +12,10 @@ services:
       - key: NODE_ENV
         value: production
 
- # 2. The React Frontend
-  - type: web          # <--- Change this to 'web'
+  # 2. The Frontend
+  - type: web
     name: mern-frontend
-    runtime: static    # <--- Add this line!
+    runtime: static  # This tells Render it's a static site
     plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
